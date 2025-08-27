@@ -14,11 +14,11 @@ export default function MovieCard({ movie }) {
     <div className="card overflow-hidden flex flex-col">
       <Link to={`/movie/${movie.id}`} className="aspect-[2/3] bg-black/30">
         <img
-  src={img.poster(movie.poster_path)}
-  alt={movie.title}
-  className="w-full h-full object-cover"
-  onError={(e) => { e.currentTarget.src = img.poster(null); }}
-/>
+        src={img.poster(movie.poster_path)}
+        alt={movie.title}
+        className="w-full h-full object-cover"
+        onError={(e)=>{ e.currentTarget.src = img.poster(null); }}
+        />
       </Link>
       <div className="p-3 space-y-2">
         <div className="text-sm text-slate-400">{yearOf(movie.release_date)}</div>
