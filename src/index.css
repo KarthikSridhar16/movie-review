@@ -1,0 +1,56 @@
+/* Tailwind v4 */
+@import "tailwindcss";
+
+/* ===== Design tokens (CSS variables) ===== */
+:root {
+  color-scheme: dark;
+
+  /* brand palette */
+  --bg: #0b0f17;
+  --card: #121828;
+  --muted: #94a3b8;
+
+  --accent: #f472b6;  /* pink */
+  --accent-2: #a78bfa; /* purple */
+
+  --ring: 0 0% 100% / .12; /* focus ring overlay */
+  --radius: 1rem;
+}
+
+/* ===== Base ===== */
+html, body, #root { height: 100%; }
+body {
+  background: var(--bg);
+  color: white;
+  font-synthesis-weight: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Links */
+a { color: #7dd3fc; }
+a:hover { text-decoration: underline; }
+
+/* ===== Reusable “design system” classes (plain CSS) ===== */
+.bg-app   { background: var(--bg); }
+.card     { background: var(--card); border: 1px solid rgba(255,255,255,.06); border-radius: var(--radius); }
+.muted    { color: var(--muted); }
+
+.btn {
+  display: inline-flex; align-items: center; gap: .5rem;
+  border-radius: calc(var(--radius) - .25rem);
+  padding: .625rem 1rem; font-weight: 600;
+  transition: .15s ease;
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: black; /* better contrast on neon gradients */
+}
+.btn-primary:hover { filter: brightness(1.05); transform: translateY(-1px); }
+.btn-ghost {
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.12);
+}
+
+/* Focus ring for keyboard users */
+:focus-visible { outline: 2px solid color-mix(in oklab, white 70%, transparent); outline-offset: 2px; }
