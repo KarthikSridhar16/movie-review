@@ -12,7 +12,7 @@ export default function Header() {
           <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-fuchsia-400 to-pink-500 grid place-items-center">
             <span className="text-xs font-black text-black">🎬</span>
           </div>
-          <div className="text-lg font-extrabold tracking-wide">MoviePoint</div>
+          <div className="text-lg font-extrabold tracking-wide">KS_MoviePoint</div>
         </div>
 
         <nav className="flex items-center gap-1">
