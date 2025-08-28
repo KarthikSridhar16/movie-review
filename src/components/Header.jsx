@@ -18,7 +18,7 @@ export default function Header() {
         <nav className="flex items-center gap-1">
           <NavLink to="/" end className={({isActive}) => `${link} ${isActive?active:""}`}>Home</NavLink>
           <a href="https://www.themoviedb.org/" target="_blank" rel="noreferrer" className={link}>TMDB</a>
-          <a href="https://github.com/" target="_blank" rel="noreferrer" className={link}>GitHub</a>
+          <a href="https://github.com/KarthikSridhar16/movie-review.git" target="_blank" rel="noreferrer" className={link}>GitHub</a>
         </nav>
 
         <div className="ml-auto">
