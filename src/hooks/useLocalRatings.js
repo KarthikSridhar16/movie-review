@@ -12,7 +12,7 @@ export default function useLocalRatings() {
     setMap(prev => {
       const next = { ...prev };
       if (val == null) delete next[id];
-      else next[id] = val; // 1..5
+      else next[id] = val; 
       localStorage.setItem(KEY, JSON.stringify(next));
       return next;
     });

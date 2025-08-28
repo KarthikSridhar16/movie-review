@@ -27,7 +27,7 @@ export default function HomePage() {
       });
       if (cancel) return;
       const cleaned = (res.results || [])
-        .filter(m => m.poster_path || m.backdrop_path)
+        .filter((m) => m.poster_path || m.backdrop_path)
         .slice(0, 8);
       setHero(cleaned);
       if (cleaned[0]) {
@@ -38,7 +38,9 @@ export default function HomePage() {
         setPageBg(firstBg);
       }
     })();
-    return () => { cancel = true; };
+    return () => {
+      cancel = true;
+    };
   }, []);
 
   const handleHeroBg = (url) => {
@@ -62,10 +64,11 @@ export default function HomePage() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    TMDB.genres().then(r => setGenreList(r.genres || [])).catch(() => {});
+    TMDB.genres()
+      .then((r) => setGenreList(r.genres || []))
+      .catch(() => {});
   }, []);
 
-  // helper: fetch 24 items for a given UI page from Discover
   async function fetchDiscover24(base, uiPage) {
     const start = (uiPage - 1) * UI_PAGE_SIZE;
     const tmdbPage1 = Math.floor(start / TMDB_PAGE_SIZE) + 1;
@@ -83,11 +86,14 @@ export default function HomePage() {
     }
 
     const slice = combined.slice(offset, offset + UI_PAGE_SIZE);
-    const totalResults = first.total_results ?? (first.total_pages * TMDB_PAGE_SIZE);
-    return { results: slice, totalPages: Math.max(1, Math.ceil(totalResults / UI_PAGE_SIZE)) };
+    const totalResults =
+      first.total_results ?? first.total_pages * TMDB_PAGE_SIZE;
+    return {
+      results: slice,
+      totalPages: Math.max(1, Math.ceil(totalResults / UI_PAGE_SIZE)),
+    };
   }
 
-  // helper: fetch 24 items for a given UI page from Search
   async function fetchSearch24(q, uiPage) {
     const start = (uiPage - 1) * UI_PAGE_SIZE;
     const tmdbPage1 = Math.floor(start / TMDB_PAGE_SIZE) + 1;
@@ -105,14 +111,19 @@ export default function HomePage() {
     }
 
     const slice = combined.slice(offset, offset + UI_PAGE_SIZE);
-    const totalResults = first.total_results ?? (first.total_pages * TMDB_PAGE_SIZE);
-    return { results: slice, totalPages: Math.max(1, Math.ceil(totalResults / UI_PAGE_SIZE)) };
+    const totalResults =
+      first.total_results ?? first.total_pages * TMDB_PAGE_SIZE;
+    return {
+      results: slice,
+      totalPages: Math.max(1, Math.ceil(totalResults / UI_PAGE_SIZE)),
+    };
   }
 
   useEffect(() => {
     let cancel = false;
     (async () => {
-      setLoading(true); setError(null);
+      setLoading(true);
+      setError(null);
       try {
         if (debounced) {
           const { results, totalPages } = await fetchSearch24(debounced, page);
@@ -124,14 +135,21 @@ export default function HomePage() {
           const today = new Date().toISOString().slice(0, 10);
           const baseParams = {
             sort_by: tab === "top" ? "vote_average.desc" : "popularity.desc",
-            ...(tab === "upcoming" ? { "primary_release_date.gte": today } : {}),
+            ...(tab === "upcoming"
+              ? { "primary_release_date.gte": today }
+              : {}),
             ...(tab === "now" ? { "primary_release_date.lte": today } : {}),
             ...(genre ? { with_genres: genre } : {}),
             ...(year ? { primary_release_year: year } : {}),
-            ...(min ? { "vote_average.gte": min * 2, "vote_count.gte": 50 } : {}),
+            ...(min
+              ? { "vote_average.gte": min * 2, "vote_count.gte": 50 }
+              : {}),
           };
 
-          const { results, totalPages } = await fetchDiscover24(baseParams, page);
+          const { results, totalPages } = await fetchDiscover24(
+            baseParams,
+            page
+          );
           if (!cancel) {
             setMovies(results || []);
             setTotalPages(totalPages);
@@ -143,10 +161,14 @@ export default function HomePage() {
         if (!cancel) setLoading(false);
       }
     })();
-    return () => { cancel = true; };
+    return () => {
+      cancel = true;
+    };
   }, [debounced, genre, year, min, tab, page]);
 
-  useEffect(() => { setPage(1); }, [debounced, genre, year, min, tab]);
+  useEffect(() => {
+    setPage(1);
+  }, [debounced, genre, year, min, tab]);
 
   const years = useMemo(() => {
     const cur = new Date().getFullYear();
@@ -158,7 +180,8 @@ export default function HomePage() {
   useEffect(() => {
     if (!heroRef.current) return;
     const ob = new IntersectionObserver(
-      ([entry]) => setHeroInView(entry.isIntersecting && entry.intersectionRatio > 0.2),
+      ([entry]) =>
+        setHeroInView(entry.isIntersecting && entry.intersectionRatio > 0.2),
       { threshold: [0, 0.2, 0.4, 0.6, 0.8, 1] }
     );
     ob.observe(heroRef.current);
@@ -166,7 +189,8 @@ export default function HomePage() {
   }, [heroRef.current]);
 
   const bgFrom = (m) =>
-    "https://image.tmdb.org/t/p/w1280" + (m.backdrop_path || m.poster_path || "");
+    "https://image.tmdb.org/t/p/w1280" +
+    (m.backdrop_path || m.poster_path || "");
 
   return (
     <section className="relative space-y-8">
@@ -194,11 +218,16 @@ export default function HomePage() {
       </div>
 
       <SearchFilters
-        query={query} setQuery={setQuery}
-        genre={genre} setGenre={setGenre}
-        year={year} setYear={setYear}
-        min={min} setMin={setMin}
-        genreList={genreList} years={years}
+        query={query}
+        setQuery={setQuery}
+        genre={genre}
+        setGenre={setGenre}
+        year={year}
+        setYear={setYear}
+        min={min}
+        setMin={setMin}
+        genreList={genreList}
+        years={years}
       />
 
       {!debounced && <NavTabs tab={tab} setTab={setTab} />}
@@ -207,7 +236,10 @@ export default function HomePage() {
 
       <div
         onPointerEnter={() => setHoveringGrid(true)}
-        onPointerLeave={() => { setHoveringGrid(false); if (heroBg) setPageBg(heroBg); }}
+        onPointerLeave={() => {
+          setHoveringGrid(false);
+          if (heroBg) setPageBg(heroBg);
+        }}
         className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-6 gap-4"
       >
         {loading
@@ -231,7 +263,9 @@ export default function HomePage() {
         >
           Prev
         </button>
-        <div className="text-sm text-slate-400">Page {page} / {totalPages}</div>
+        <div className="text-sm text-slate-400">
+          Page {page} / {totalPages}
+        </div>
         <button
           disabled={page >= totalPages}
           onClick={() => setPage((p) => p + 1)}

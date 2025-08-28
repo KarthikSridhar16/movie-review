@@ -1,11 +1,10 @@
-// src/app/tmdb.js
+
 const BASE = "https://api.themoviedb.org/3";
 
-// Trim in case Netlify value has stray spaces/newlines
+
 const TOKEN = (import.meta.env.VITE_TMDB_TOKEN ?? "").trim();
 
 if (!TOKEN) {
-  // This will show up in Netlify’s production console if the token is missing
   console.error(
     "[TMDB] Missing VITE_TMDB_TOKEN. " +
     "On Netlify set it in Site settings → Build & deploy → Environment."
@@ -30,7 +29,6 @@ async function api(path, params = {}) {
 
   if (res.status === 401) {
     const body = await res.text();
-    // Helpful one-time diagnostics without exposing the token
     console.error(
       "[TMDB] 401 Unauthorized.",
       { hasToken: Boolean(TOKEN), tokenLength: TOKEN.length, path }
@@ -46,13 +44,12 @@ async function api(path, params = {}) {
 }
 
 export const TMDB = {
-  // lists
   genres: () => api("/genre/movie/list"),
   discover: (params) => api("/discover/movie", params),
   searchMovies: (query, page = 1) => api("/search/movie", { query, page }),
 
-  // details
   movie: (id) => api(`/movie/${id}`),
   credits: (id) => api(`/movie/${id}/credits`),
   videos: (id) => api(`/movie/${id}/videos`),
+  keywords: (id) => api(`/movie/${id}/keywords`),
 };

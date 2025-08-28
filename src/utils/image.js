@@ -1,4 +1,4 @@
-// tiny SVG data URIs (no external files needed)
+
 const posterPh =
   'data:image/svg+xml;utf8,' +
   encodeURIComponent(`

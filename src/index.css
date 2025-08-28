@@ -9,8 +9,6 @@
   --accent-2: #a78bfa;
   --ring: 0 0% 100% / .12;
   --radius: 1rem;
-
-  /* unified control height */
   --field-h: 48px;
 }
 
@@ -78,7 +76,7 @@ a:hover { text-decoration: underline; }
   .hero-poster-h{ height:340px; }
 }
 
-/* themed selects */
+
 .filter-select{
   -webkit-appearance:none; -moz-appearance:none; appearance:none;
   background: rgba(15,23,42,.92);
@@ -106,7 +104,6 @@ a:hover { text-decoration: underline; }
 }
 .filter-select, .filter-select:focus{ position:relative; z-index:60; }
 
-/* matching input */
 .filter-input{
   -webkit-appearance:none; -moz-appearance:none; appearance:none;
   box-sizing:border-box;
