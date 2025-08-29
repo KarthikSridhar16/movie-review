@@ -188,7 +188,6 @@ export default function HeroCarousel({
       document.removeEventListener("visibilitychange", onVis);
       io.disconnect();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [looped.length]);
 
   const posterSrc = (m) =>

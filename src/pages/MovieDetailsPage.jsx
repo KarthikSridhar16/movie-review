@@ -23,7 +23,6 @@ function ReadonlyStars({ value = 0 }) {
   );
 }
 
-/* simple local reviews store */
 function useLocalReviews(movieId) {
   const key = "mp.reviews";
   const [list, setList] = useState([]);
@@ -61,7 +60,7 @@ export default function MovieDetailsPage() {
   const [movie, setMovie] = useState(null);
   const [cast, setCast] = useState([]);
   const [trailer, setTrailer] = useState(null);
-  const [keywords, setKeywords] = useState([]); // NEW
+  const [keywords, setKeywords] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -89,7 +88,7 @@ export default function MovieDetailsPage() {
           (x) => x.site === "YouTube" && (x.type === "Trailer" || x.type === "Teaser")
         );
         setTrailer(yt ? `https://www.youtube.com/watch?v=${yt.key}` : null);
-        setKeywords(k.keywords || k.results || []); // TMDB returns {keywords:[...]}
+        setKeywords(k.keywords || k.results || []);
       } catch (e) {
         if (!cancel) setError(e.message || "Failed to load movie");
       } finally {
@@ -118,7 +117,6 @@ export default function MovieDetailsPage() {
 
   const tmdb5 = useMemo(() => toFiveStar(movie?.vote_average ?? 0), [movie?.vote_average]);
 
-  // Map original_language to a readable name using spoken_languages if available
   const originalLanguageName = useMemo(() => {
     if (!movie?.original_language) return null;
     const code = movie.original_language;
@@ -159,7 +157,6 @@ export default function MovieDetailsPage() {
 
       {!loading && movie && (
         <>
-          {/* Hero: poster left, content right */}
           <article className="glass rounded-2xl overflow-hidden p-5 sm:p-6 lg:p-8">
             <div className="grid grid-cols-1 md:grid-cols-[300px_1fr] lg:grid-cols-[340px_1fr] gap-6 items-start">
               <div className="md:col-span-1">
@@ -216,7 +213,6 @@ export default function MovieDetailsPage() {
             </div>
           </article>
 
-          {/* Facts / Keywords / Content Score */}
           <section className="grid gap-5 lg:grid-cols-3">
             {/* Facts */}
             <div className="card p-5 space-y-3">
@@ -227,7 +223,6 @@ export default function MovieDetailsPage() {
               <FactRow label="Revenue" value={formatCurrency(movie.revenue)} />
             </div>
 
-            {/* Keywords */}
             <div className="card p-5 space-y-3 lg:col-span-2">
               <h3 className="text-lg font-bold">Keywords</h3>
               {keywords?.length ? (
@@ -256,7 +251,6 @@ export default function MovieDetailsPage() {
             </div>
           </section>
 
-          {/* Cast */}
           {cast.length > 0 && (
             <section className="card p-5">
               <h2 className="text-xl font-bold mb-3">Cast</h2>
@@ -280,7 +274,6 @@ export default function MovieDetailsPage() {
             </section>
           )}
 
-          {/* Reviews */}
           <ReviewsSection movieTitle={movie.title} reviews={reviews} />
         </>
       )}

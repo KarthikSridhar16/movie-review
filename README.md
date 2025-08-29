@@ -1,12 +1,88 @@
-# React + Vite
+MoviePoint
+============
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A clean, responsive movie browser powered by the TMDB API, built with Vite + React + Tailwind.
 
-Currently, two official plugins are available:
+Note: This product uses the TMDB API but is not endorsed or certified by TMDB.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## Expanding the ESLint configuration
+Features
+--------
+- Cinematic hero carousel (auto-pauses off-screen/hover).
+- Dynamic page backdrop that updates with the hero slide and on card hover.
+- Debounced search + filters (genre, year, minimum rating).
+- 24-card grid per page (stitches TMDB’s 20-item pages seamlessly).
+- Movie details page: poster + facts, overview, trailer, cast slider.
+- Local ratings & reviews (saved in localStorage).
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+
+Tech
+----
+- React 18, Vite, Tailwind CSS
+- react-router-dom
+- Custom hooks: useDebouncedValue, useLocalRatings
+
+
+Setup
+-----
+1) Install
+   npm i
+
+2) Create a TMDB v4 token (Account → Settings → API).
+   Add it to a .env file in the project root:
+
+   VITE_TMDB_TOKEN=eyJhbGciOiJI...   # TMDB v4 read token (JWT)
+
+3) Run
+   npm run dev
+
+4) Build
+   npm run build
+   npm run preview
+
+
+Deploy (Netlify)
+----------------
+- Build command: npm run build
+- Publish directory: dist/
+- Environment variable: VITE_TMDB_TOKEN  (your TMDB v4 token)
+
+If you see TMDB 401 after deploy, double-check:
+- The variable name is exactly VITE_TMDB_TOKEN
+- The value is the v4 auth token (long JWT), not the v3 key
+- You redeployed after adding the variable
+
+
+Project Structure (minimal)
+---------------------------
+src/
+  app/tmdb.js
+  components/
+    HeroCarousel.jsx
+    MovieCard.jsx
+    NavTabs.jsx
+    SearchFilters.jsx
+    StarRating.jsx
+  hooks/
+    useDebouncedValue.js
+    useLocalRatings.js
+  pages/
+    HomePage.jsx
+    MovieDetailsPage.jsx
+  utils/
+    format.js
+    image.js
+  styles/        # optional extras
+
+
+Scripts
+-------
+npm run dev       # start dev server
+npm run build     # production build
+npm run preview   # preview dist locally
+
+
+Notes
+-----
+- The 24-item grid aggregates results across TMDB pages to keep pagination consistent.
+- Ratings/reviews are client-only and stored in the browser.
